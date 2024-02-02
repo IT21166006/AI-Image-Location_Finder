@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Location Finder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+   <link rel="stylesheet" href="index.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #4CAF50, #3498db);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="file"] {
+      border: 1px solid #fff;
+      padding: 8px;
+      width: 100%;
+    }
+
+    button {
+      background-color: #fff;
+      color: #3498db;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+    #loading {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #loading img {
+      width: 50px;
+      height: 70px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      h1 {
+        font-size: 1.5em;
+      }
+
+      input[type="file"], button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="w3-container w3-center w3-animate-opacity">
+    <h1>Image Location Finder</h1></div>
+    <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+      <label for="image">Choose an image:</label>
+      <input type="file" name="image" accept="image/jpeg" required>
+      <br><br>
+      <button type="submit">Upload</button>
+    </form>
+
+    <div id="loading">
+      <img src="pv.png" alt="Please Wait">
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="contact-info">
+        <p>Contact: ytdilshan101@gmail.com</p>
+      </div>
+      <div class="quick-links">
+        <ul>
+          
+          <li><a href="https://www.linkedin.com/in/tharindu-dilshan-543886285/">About Us</a></li>
+          
+        </ul>
+      </div>
+      <div class="copyright">
+        &copy; 2024 Image Location Finder. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+  
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const resultDiv = document.getElementById('result');
+    const loadingDiv = document.getElementById('loading');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Display "Please Wait" gif
+      loadingDiv.style.display = 'block';
+
+      const formData = new FormData(form);
+      const response = await fetch('/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      // Hide "Please Wait" gif after response is received
+      loadingDiv.style.display = 'none';
+
+      const result = await response.text();
+      resultDiv.textContent = result;
+    });
+  </script>
+</body>
+</html>
